@@ -1,0 +1,27 @@
+{
+  "name": "11ty-plugin-cooklang",
+  "version": "1.0.0",
+  "description": "An Eleventy extension that adds support for .cook files. Reads the .cook file and adds data to the page. Choice of how to display that data is left up to the user, i.e. create your own layout to display it.",
+  "main": ".eleventy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matt-auckland/eleventy-plugin-cooklang.git"
+  },
+  "keywords": [
+    "eleventy",
+    "eleventy-plugin",
+    "cooklang"
+  ],
+  "author": "matt-auckland",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matt-auckland/eleventy-plugin-cooklang/issues"
+  },
+  "homepage": "https://github.com/matt-auckland/eleventy-plugin-cooklang#readme",
+  "dependencies": {
+    "@cooklang/cooklang-ts": "^1.0.0"
+  }
+}
