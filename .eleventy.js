@@ -15,8 +15,11 @@ const cookExtension = {
 
     const content = fs.readFileSync(inputPath, 'utf-8');
     const charsToTrim = content.match(frontmatterRegex)[0].length;
-    // Trim out frontmatter and parse recipe using cooklang-ts
-    const recipe = new Recipe(content.substring(charsToTrim));
+    // Trim out frontmatter
+    const trimmedString = content.substring(charsToTrim);
+
+    // Parse recipe using cooklang-ts
+    const recipe = new Recipe(trimmedString);
 
     let steps = [];
     let ingredients = [];
@@ -43,15 +46,21 @@ const cookExtension = {
     recipe.steps.forEach((stepTokens, i) => {
       if (!steps[i]) steps[i] = [];
 
-      return stepTokens.forEach(token => {
+      stepTokens.forEach(token => {
         if (token.type == 'ingredient') {
-          const { name, quantity, units } = token
-          ingredients.push({ name, quantity, units })
+          let { name, quantity, units } = token;
+
+          if (config.limitIngredientDecimals && !isNaN(config.limitIngredientDecimals)) {
+            const decimalPlaces = parseInt(config.limitIngredientDecimals);
+            // Parsing float twice removes any trailing 0s
+            quantity = parseFloat((parseFloat(quantity).toFixed(decimalPlaces)));
+          }
+          ingredients.push({ name, quantity, units });
         }
 
         if (token.type == 'cookware') {
-          const { name } = token
-          cookware.push({ name })
+          const { name } = token;
+          cookware.push({ name });
         }
 
         steps[i].push(getStepTokenHTML(token));

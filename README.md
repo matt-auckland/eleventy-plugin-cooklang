@@ -25,10 +25,10 @@ The plugin adds the following to the page's data:
 ```js
 {
   recipe, // The raw output of the cooklang parser
-  steps, // An array of the recipe's steps
-  ingredients, // An array of the recipe's ingredients
-  cookware, // An array of the recipe's cookware
-  recipeTags; // An array of any tags added as Cooklang metadata to the recipe, i.e. >> tags: bread, baking
+    steps, // An array of the recipe's steps
+    ingredients, // An array of the recipe's ingredients
+    cookware, // An array of the recipe's cookware
+    recipeTags; // An array of any tags added as Cooklang metadata to the recipe, i.e. >> tags: bread, baking
 }
 ```
 
@@ -46,6 +46,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPlugin(eleventyPluginCookLang, {
     outputHtml: true / false, // default false
     excludeContent: true / false, // default false
+    limitIngredientDecimals: Integer, // default null
   });
 };
 ```
@@ -63,6 +64,12 @@ Useful for if you want to style the instructions.
 Default: `false`
 
 Takes a boolean and changes whether the page has `content` or not, can be useful for your display logic.
+
+### limitIngredientDecimals
+
+Default: Does not trim/round decimals
+
+Takes an integer and rounds and decimals found in ingredients to that many decimal places.
 
 ## Credit
 
