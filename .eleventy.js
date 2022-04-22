@@ -2,12 +2,13 @@ const { Recipe } = require("@cooklang/cooklang-ts");
 const fs = require('fs');
 
 const frontmatterRegex = /^(\-\-\-\n)(.*\n)*(\-\-\-)$/gm
+let config = {}
 
-module.exports = function (eleventyConfig, config) {
+module.exports = function (eleventyConfig, userConfig = {}) {
+  config = userConfig;
   eleventyConfig.addTemplateFormats("cook");
   eleventyConfig.addExtension("cook", cookExtension);
 }
-
 
 const cookExtension = {
   getData: async function (inputPath) {
@@ -31,7 +32,12 @@ const cookExtension = {
       } else {
         tagContent = token.name || token.value;
       }
-      return `<span class="recipe--${type}">${tagContent}</span>`;
+
+      if (config.outputHtml) {
+        return `<span class="recipe--${type}">${tagContent}</span>`;
+      } else {
+        return `${tagContent}`;
+      }
     }
 
     recipe.steps.forEach((stepTokens, i) => {
@@ -51,7 +57,6 @@ const cookExtension = {
         steps[i].push(getStepTokenHTML(token));
       });
     });
-
 
     return {
       recipe,
