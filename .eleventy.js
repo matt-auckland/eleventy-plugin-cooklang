@@ -14,12 +14,25 @@ const cookExtension = {
 
     const content = fs.readFileSync(inputPath, 'utf-8');
     const charsToTrim = content.match(frontmatterRegex)[0].length;
+    // Trim out frontmatter and parse recipe using cooklang-ts
     const recipe = new Recipe(content.substring(charsToTrim));
 
     let steps = [];
     let ingredients = [];
     let cookware = [];
     const recipeTags = recipe?.metadata?.tags?.split(',') || [];
+
+    function getStepTokenHTML(token) {
+      const { quantity, units, name, value, type } = token;
+      let tagContent = "";
+
+      if (token.type == 'timer') {
+        tagContent = `${quantity} ${units}`;
+      } else {
+        tagContent = token.name || token.value;
+      }
+      return `<span class="recipe--${type}">${tagContent}</span>`;
+    }
 
     recipe.steps.forEach((stepTokens, i) => {
       if (!steps[i]) steps[i] = [];
@@ -29,17 +42,13 @@ const cookExtension = {
           const { name, quantity, units } = token
           ingredients.push({ name, quantity, units })
         }
+
         if (token.type == 'cookware') {
           const { name } = token
           cookware.push({ name })
         }
 
-        if (token.type == 'timer') {
-          const { quantity, units } = token;
-          steps[i].push(`<span class="recipe--${token.type}">${quantity} ${units}</span>`);
-        } else {
-          steps[i].push(`<span class="recipe--${token.type}">${token.name || token.value}</span>`);
-        }
+        steps[i].push(getStepTokenHTML(token));
       });
     });
 
