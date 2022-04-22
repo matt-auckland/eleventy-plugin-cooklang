@@ -62,7 +62,8 @@ const cookExtension = {
       recipe,
       steps,
       ingredients,
-      cookware, recipeTags
+      cookware,
+      recipeTags
     };
   },
   compile: async (inputContent) => {
