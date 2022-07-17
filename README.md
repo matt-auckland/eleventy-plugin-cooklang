@@ -1,6 +1,6 @@
 # Eleventy-plugin-cooklang
 
-An Eleventy extension that adds support for `.cook` files. Reads the `.cook` file and adds data to the page. Choice of how to display that data is left up to the user, i.e. create your own layout to display it. Any frontmatter added to the `.cook` file is before we parse the recipe but will be still be included in the page's data.
+An [Eleventy](https://www.11ty.dev/) extension that adds support for `.cook` files. Reads the `.cook` file and adds data to the page. Choice of how to display that data is left up to the user, i.e. create your own layout to display it. Any frontmatter added to the `.cook` file is before we parse the recipe but will be still be included in the page's data.
 
 ## Installation
 
